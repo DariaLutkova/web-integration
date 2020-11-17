@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, FlatList, StatusBar, Pressable, Button } from 'react-native';
 
+import * as config from './config.json';
+
 export default class App extends React.Component {
   state = { data: null }
 
   async componentDidMount() {
-    const data = await fetch('https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=')
+    const data = await fetch(`https://api.nytimes.com/svc/books/v3/lists.json?list=hardcover-fiction&api-key=${config["nyt-api-key"]}`)
         .then((response) => response.json())
 
     this.setState({ data: data.results })
@@ -71,7 +73,7 @@ export default class App extends React.Component {
               <FlatList
                   data={state.data}
                   renderItem={this.renderItem}
-                  keyExtractor={item => item.id}
+                  keyExtractor={item => item.amazon_product_url}
               />
           </SafeAreaView>
           </>
